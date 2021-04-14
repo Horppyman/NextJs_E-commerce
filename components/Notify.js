@@ -5,7 +5,7 @@ import Loading from "./Loading";
 import Toast from "./Toast";
 
 export default function Notify() {
-  const [state, dispatch] = useContext(DataContext);
+  const {state, dispatch} = useContext(DataContext);
   const { notify } = state;
   return (
     <>

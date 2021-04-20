@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
+import { useRouter } from "next/router";
 
 import Navbar from "../components/Navbar";
 import Layout from "../components/Layout";
@@ -13,6 +14,8 @@ export default function SignIn() {
   const [userData, setUserData] = useState(initialState);
   const { email, password } = userData;
   const { state, dispatch } = useContext(DataContext);
+  const { auth } = state;
+  const router = useRouter();
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -42,6 +45,10 @@ export default function SignIn() {
     });
     localStorage.setItem("firstLogin", true);
   };
+
+  useEffect(() => {
+    if (Object.keys(auth).length !== 0) router.push("/");
+  }, [auth]);
 
   return (
     <>

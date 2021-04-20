@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
+import { useRouter } from "next/router";
 
 import Navbar from "../components/Navbar";
 import Layout from "../components/Layout";
@@ -12,7 +13,9 @@ export default function Register() {
   const initialState = { name: "", email: "", password: "", cf_password: "" };
   const [userData, setUserData] = useState(initialState);
   const { name, email, password, cf_password } = userData;
-  const {state, dispatch} = useContext(DataContext);
+  const { state, dispatch } = useContext(DataContext);
+  const { auth } = state;
+  const router = useRouter();
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -31,6 +34,10 @@ export default function Register() {
       return dispatch({ type: "NOTIFY", payload: { error: res.err } });
     dispatch({ type: "NOTIFY", payload: { success: res.msg } });
   };
+
+  useEffect(() => {
+    if (Object.keys(auth).length !== 0) router.push("/");
+  }, [auth]);
 
   return (
     <>

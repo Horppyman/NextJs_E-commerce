@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Cookies from 'js-cookie';
 
 import { DataContext } from "../store/GlobalState";
 
@@ -17,6 +18,13 @@ function Navbar() {
     }
   };
 
+  const handleLogout = () => {
+    Cookies.remove('refreshtoken', {path: "api/auth/accessToken"})
+    localStorage.removeItem('firstLogin')
+    dispatch({type: 'AUTH', payload: {}})
+    dispatch({type: 'NOTIFY', payload: {success: 'Logged out successfully'}})
+  }
+
   const loggedRouter = () => {
     return (
       <li className="nav-item dropdown">
@@ -28,15 +36,26 @@ function Navbar() {
           aria-haspopup="true"
           aria-expanded="false"
         >
-          User Name
+          <img
+            src={auth.user.avatar}
+            alt={auth.user.avatar}
+            style={{
+              borderRadius: "50%",
+              width: "30px",
+              height: "30px",
+              transform: "translateY(-3px)",
+              marginRight: "3px",
+            }}
+          />
+          {auth.user.name}
         </a>
         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a className="dropdown-item" href="#">
             <i class="fas fa-user"></i> Profile
           </a>
-          <a className="dropdown-item" href="#">
+          <button className="dropdown-item" onClick={handleLogout}>
             <i className="fas fa-sign-out-alt"></i> Logout
-          </a>
+          </button>
         </div>
       </li>
     );

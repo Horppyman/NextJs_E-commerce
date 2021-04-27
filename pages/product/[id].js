@@ -7,6 +7,12 @@ import { getData } from "../../utils/fetchData";
 
 export default function ProductDetail(props) {
   const [product] = useState(props.product);
+  const [tab, setTab] = useState(0);
+
+  const isActive = (index) => {
+    if (tab === index) return " active";
+    return "";
+  };
 
   return (
     <>
@@ -15,24 +21,30 @@ export default function ProductDetail(props) {
       </Head>
       <Navbar />
       <Layout>
-        <div className="col-md-6">
-          <img
-            src={product.images[0].url}
-            alt={product.images[0].url}
-            className="d-block img-thumbnail rounded mt-4 w-100"
-            style={{ height: "350px" }}
-          />
+        <div className="row detail-page">
+          <div className="col-md-6">
+            <img
+              src={product.images[tab].url}
+              alt={product.images[tab].url}
+              className="d-block img-thumbnail rounded mt-4 w-100"
+              style={{ height: "350px" }}
+            />
 
-          <div>
-            {product.images.map((img, index) => (
-              <img
-                key={index}
-                src={img.url}
-                alt={img.url}
-                className="img-thumbnail rounded"
-                style={{ height: "80px", width: "20%" }}
-              />
-            ))}
+            <div
+              className="row mx-0"
+              style={{ cursor: "pointer" }}
+            >
+              {product.images.map((img, index) => (
+                <img
+                  key={index}
+                  src={img.url}
+                  alt={img.url}
+                  className={`img-thumbnail rounded ${isActive(index)}`}
+                  style={{ height: "80px", width: "20%" }}
+                  onClick={() => setTab(index)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </Layout>

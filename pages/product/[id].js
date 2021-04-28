@@ -30,10 +30,7 @@ export default function ProductDetail(props) {
               style={{ height: "350px" }}
             />
 
-            <div
-              className="row mx-0"
-              style={{ cursor: "pointer" }}
-            >
+            <div className="row mx-0" style={{ cursor: "pointer" }}>
               {product.images.map((img, index) => (
                 <img
                   key={index}
@@ -45,6 +42,24 @@ export default function ProductDetail(props) {
                 />
               ))}
             </div>
+          </div>
+          <div className="col-md-6 mt-3">
+            <h2 className="text-uppercase">{product.title}</h2>
+            <h5 className="text-danger">${product.price}</h5>
+            <div className="row mx-0 d-flex justify-content-between">
+              {product.inStock > 0 ? (
+                <h6 className="text-danger">In Stock: {product.inStock}</h6>
+              ) : (
+                <h6 className="text-danger">Out of Stock</h6>
+              )}
+
+              <h6 className="text-danger">Sold: {product.sold}</h6>
+            </div>
+            <div className="my-2">{product.description}</div>
+            <div className="my-2">{product.content}</div>
+            <button type="button" className="btn btn-dark d-block my-3 px-5">
+              Buy
+            </button>
           </div>
         </div>
       </Layout>

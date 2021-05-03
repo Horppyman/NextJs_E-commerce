@@ -1,13 +1,18 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import Navbar from "../../components/Navbar";
 import Layout from "../../components/Layout";
 import { getData } from "../../utils/fetchData";
+import { DataContext } from "../../store/GlobalState";
+import { addToCart } from "../../store/Actions";
 
 export default function ProductDetail(props) {
   const [product] = useState(props.product);
   const [tab, setTab] = useState(0);
+
+  const { state, dispatch } = useContext(DataContext);
+  const { cart } = state;
 
   const isActive = (index) => {
     if (tab === index) return " active";
@@ -57,7 +62,11 @@ export default function ProductDetail(props) {
             </div>
             <div className="my-2">{product.description}</div>
             <div className="my-2">{product.content}</div>
-            <button type="button" className="btn btn-dark d-block my-3 px-5">
+            <button
+              type="button"
+              className="btn btn-dark d-block my-3 px-5"
+              onClick={() => dispatch(addToCart(product, cart))}
+            >
               Buy
             </button>
           </div>

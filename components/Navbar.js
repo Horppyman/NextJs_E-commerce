@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 import { DataContext } from "../store/GlobalState";
 
 function Navbar() {
   const router = useRouter();
   const { state, dispatch } = useContext(DataContext);
-  const { auth } = state;
+  const { auth, cart } = state;
 
   const isActive = (r) => {
     if (r === router.pathname) {
@@ -19,11 +19,14 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    Cookies.remove('refreshtoken', {path: "api/auth/accessToken"})
-    localStorage.removeItem('firstLogin')
-    dispatch({type: 'AUTH', payload: {}})
-    dispatch({type: 'NOTIFY', payload: {success: 'Logged out successfully'}})
-  }
+    Cookies.remove("refreshtoken", { path: "api/auth/accessToken" });
+    localStorage.removeItem("firstLogin");
+    dispatch({ type: "AUTH", payload: {} });
+    dispatch({
+      type: "NOTIFY",
+      payload: { success: "Logged out successfully" },
+    });
+  };
 
   const loggedRouter = () => {
     return (
@@ -87,7 +90,26 @@ function Navbar() {
           <li className="nav-item">
             <Link href="/cart">
               <a className={"nav-link" + isActive("/cart")}>
-                <i className="fas fa-shopping-cart" aria-hidden="true"></i> Cart
+                <i
+                  className="fas fa-shopping-cart position-relative"
+                  aria-hidden="true"
+                >
+                  <span
+                    className="position-absolute"
+                    style={{
+                      padding: "3px 6px",
+                      background: "#ed143dc2",
+                      borderRadius: "50%",
+                      top: "-10px",
+                      right: "-10px",
+                      color: 'white',
+                      fontSize: "10px",
+                    }}
+                  >
+                    {cart.length}
+                  </span>
+                </i>{" "}
+                Cart
               </a>
             </Link>
           </li>
